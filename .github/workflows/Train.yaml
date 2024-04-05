@@ -1,0 +1,32 @@
+name: Docker Build and Push
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: your_image_name
+  REGISTRY: docker.io
+  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME .
+
+      - name: Tag Docker image
+        run: docker tag $IMAGE_NAME $REGISTRY/$USERNAME/$IMAGE_NAME:latest
+
+      - name: Push Docker image
+        run: docker push $REGISTRY/$USERNAME/$IMAGE_NAME:latest
