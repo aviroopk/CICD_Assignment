@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+env:
+  IMAGE_NAME: ci-cd-assignment
+  REGISTRY: docker.io
+  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  VERSION: 1.1
+
+
 jobs:
   pull-run-and-test:
     runs-on: ubuntu-latest
@@ -17,13 +25,13 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Pull Docker image
-        run: docker pull your_image_name
+        run: docker pull $REGISTRY/$USERNAME/$IMAGE_NAME:$VERSION
 
       - name: Run Docker container
-        run: docker run --name your_container_name -d your_image_name
+        run: docker run --name $IMAGE_NAME -d $IMAGE_NAME
 
       - name: Wait for container to finish
-        run: docker wait your_container_name
+        run: docker wait $IMAGE_NAME
 
       - name: Get test score
         run: SCORE=$(docker logs your_container_name | tail -n 1) && echo "::set-output name=score::$SCORE"
