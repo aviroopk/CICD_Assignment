@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: your_image_name
+  IMAGE_NAME: ci-cd-assignment
   REGISTRY: docker.io
   USERNAME: ${{ secrets.DOCKER_USERNAME }}
   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
