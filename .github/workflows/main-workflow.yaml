@@ -1,0 +1,20 @@
+name: Main Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  call-workflow1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Workflow 1
+        uses: ./.github/workflows/Train.yaml
+
+  call-workflow2:
+    needs: call-workflow1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Workflow 2
+        uses: ./.github/workflows/Test.yaml
