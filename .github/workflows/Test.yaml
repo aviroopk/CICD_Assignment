@@ -28,13 +28,13 @@ jobs:
         run: docker pull $REGISTRY/$USERNAME/$IMAGE_NAME:$VERSION
 
       - name: Run Docker container
-        run: docker run --name $IMAGE_NAME -d $IMAGE_NAME:$VERSION
+        run: docker run --name $IMAGE_NAME -d $USERNAME/$IMAGE_NAME:$VERSION
 
       - name: Wait for container to finish
         run: docker wait $IMAGE_NAME
 
       - name: Get test score
-        run: SCORE=$(docker logs your_container_name | tail -n 1) && echo "::set-output name=score::$SCORE"
+        run: SCORE=$(docker logs $IMAGE_NAME | tail -n 1) && echo "::set-output name=score::$SCORE"
 
       - name: Check test score
         run: |
