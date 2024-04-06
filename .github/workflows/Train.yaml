@@ -10,6 +10,7 @@ env:
   REGISTRY: docker.io
   USERNAME: ${{ secrets.DOCKER_USERNAME }}
   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  VERSION: 1
 
 jobs:
   build-and-push:
@@ -26,7 +27,7 @@ jobs:
         run: docker build -t $IMAGE_NAME .
 
       - name: Tag Docker image
-        run: docker tag $IMAGE_NAME $REGISTRY/$USERNAME/$IMAGE_NAME:latest
+        run: docker tag $IMAGE_NAME $REGISTRY/$USERNAME/$IMAGE_NAME:$VERSION
 
       - name: Push Docker image
-        run: docker push $REGISTRY/$USERNAME/$IMAGE_NAME:latest
+        run: docker push $REGISTRY/$USERNAME/$IMAGE_NAME:$VERSION
