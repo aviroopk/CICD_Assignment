@@ -28,7 +28,7 @@ jobs:
         run: docker pull $REGISTRY/$USERNAME/$IMAGE_NAME:$VERSION
 
       - name: Run Docker container
-        run: docker run --name $IMAGE_NAME -d $IMAGE_NAME
+        run: docker run --name $IMAGE_NAME -d $IMAGE_NAME:$VERSION
 
       - name: Wait for container to finish
         run: docker wait $IMAGE_NAME
