@@ -1,7 +1,7 @@
 name: Main Workflow
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -22,9 +22,9 @@ jobs:
           workflow: Train
           ref: main
           inputs:
-            IMAGE_NAME: ${{ env.IMAGE_NAME }}
-            REGISTRY: ${{ env.REGISTRY }}
-            VERSION: ${{ env.VERSION }}
+            IMAGE_NAME: ${IMAGE_NAME}
+            REGISTRY: ${REGISTRY}
+            VERSION: ${VERSION}
       - name: Call Test workflow
         if: success()
         uses: actions/workflow-dispatch@v2
@@ -32,6 +32,6 @@ jobs:
           workflow: Test
           ref: main
           inputs:
-            IMAGE_NAME: ${{ env.IMAGE_NAME }}
-            REGISTRY: ${{ env.REGISTRY }}
-            VERSION: ${{ env.VERSION }}
+            IMAGE_NAME: ${IMAGE_NAME}
+            REGISTRY: ${env.REGISTRY}
+            VERSION: ${env.VERSION}
