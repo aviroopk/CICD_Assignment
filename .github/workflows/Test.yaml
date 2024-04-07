@@ -31,12 +31,9 @@ jobs:
       - name: Wait for container to finish
         run: docker wait $IMAGE_NAME
 
-      - name: Get test score
-        run: SCORE=$(docker logs $IMAGE_NAME| tail -n 1) && echo "::set-output name=score::$SCORE"
-
-      - name: Check test score
+      - name: Get and Check test score
         run: |
-          SCORE=$INPUT_SCORE
+          SCORE=$(docker logs $IMAGE_NAME| tail -n 1)
           if (( $(echo "$SCORE > 0.50" | bc -l) )); then
             echo "Test passed. Score is greater than 0.40"
             exit 0
