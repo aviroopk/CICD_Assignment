@@ -37,7 +37,6 @@ jobs:
       - name: Check test score
         run: |
           SCORE=$INPUT_SCORE
-          echo "$SCORE"
           if (( $(echo "$SCORE > 0.50" | bc -l) )); then
             echo "Test passed. Score is greater than 0.40"
             exit 0
