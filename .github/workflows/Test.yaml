@@ -1,17 +1,16 @@
 name: Test
 
 on:
-  workflow_call:
-    inputs:
-      IMAGE_NAME:
-        description: 'Docker container/image name'
-        required: true
-      REGISTRY:
-        description: 'Registry name'
-        required: true
-      VERSION:
-        description: 'docker image version'
-        required: true
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: ci-cd-assignment
+  REGISTRY: docker.io
+  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  VERSION: 1.1
 
 
 jobs:
@@ -26,16 +25,16 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Pull Docker image
-        run: docker pull ${{ inputs.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
+        run: docker pull ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${VERSION}
 
       - name: Run Docker container
-        run: docker run --name ${{ inputs.IMAGE_NAME }} -d ${{ secrets.DOCKER_USERNAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
+        run: docker run --name ${IMAGE_NAME} -d ${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${VERSION}
 
       - name: Wait for container to finish
         run: docker wait ${{ inputs.IMAGE_NAME }}
 
       - name: Get test score
-        run: SCORE=$(docker logs ${{ inputs.IMAGE_NAME }}| tail -n 1) && echo "::set-output name=score::$SCORE"
+        run: SCORE=$(docker logs ${IMAGE_NAME}| tail -n 1) && echo "::set-output name=score::$SCORE"
 
       - name: Check test score
         run: |

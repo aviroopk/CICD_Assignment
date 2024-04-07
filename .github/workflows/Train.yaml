@@ -1,17 +1,16 @@
 name: Train
 
 on:
-  workflow_call:
-    inputs:
-      IMAGE_NAME:
-        description: 'Docker container/image name'
-        required: true
-      REGISTRY:
-        description: 'Registry name'
-        required: true
-      VERSION:
-        description: 'docker image version'
-        required: true
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: ci-cd-assignment
+  REGISTRY: docker.io
+  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  VERSION: 1.1
 
 jobs:
   build-and-push:
@@ -25,10 +24,10 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t $ {{ inputs.IMAGE_NAME }} .
+        run: docker build -t $ {IMAGE_NAME} .
 
       - name: Tag Docker image
-        run: docker tag $IMAGE_NAME ${{ inputs.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
+        run: docker tag $IMAGE_NAME ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${VERSION}
 
       - name: Push Docker image
-        run: docker push ${{ inputs.REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/${{ inputs.IMAGE_NAME }}:${{ inputs.VERSION }}
+        run: docker push ${REGISTRY}/${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}:${VERSION}
