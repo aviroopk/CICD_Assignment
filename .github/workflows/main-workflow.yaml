@@ -14,25 +14,27 @@ env:
 
 
 jobs:
-  call-workflow1:
+  call-child-workflows:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Workflow 1
-        uses: ./.github/workflows/Train.yaml
+      - name: Call Train workflow
+        uses: actions/workflow-dispatch@v2
         with:
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          REGISTRY: ${{ env.REGISTRY }}
-          VERSION: ${{ env.VERSION }}
-
-
-
-  call-workflow2:
-    needs: call-workflow1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call Workflow 2
-        uses: ./.github/workflows/Test.yaml
+          workflow: Train
+          ref: main
+          env:
+            IMAGE_NAME: ${{ env.IMAGE_NAME }}
+            REGISTRY: ${{ env.REGISTRY }}
+            VERSION: ${{ env.VERSION }}
+      - name: Call Test workflow
+        if: success()
+        uses: actions/workflow-dispatch@v2
         with:
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          REGISTRY: ${{ env.REGISTRY }}
-          VERSION: ${{ env.VERSION }}
+          workflow: Test
+          ref: main
+          env:
+            IMAGE_NAME: ${{ env.IMAGE_NAME }}
+            REGISTRY: ${{ env.REGISTRY }}
+            VERSION: ${{ env.VERSION }}
+
+
