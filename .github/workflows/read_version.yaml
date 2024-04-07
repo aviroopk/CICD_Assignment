@@ -10,14 +10,14 @@ env:
   REGISTRY: docker.io
 
 jobs:
-  - name: Set variables
-    run: |
-      VER=$(cat version.py)
-      echo "VERSION=$VER" >> $GITHUB_ENV
   build-and-push:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Set variables
+        run: |
+          VER=$(cat version.py)
+          echo "VERSION=$VER" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v2
 
