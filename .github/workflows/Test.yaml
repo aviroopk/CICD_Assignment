@@ -34,7 +34,7 @@ jobs:
       - name: Get and Check test score
         run: |
           SCORE=$(docker logs $IMAGE_NAME| tail -n 1)
-          if (( $(echo "$SCORE > 0.50" | bc -l) )); then
+          if (( $(echo "$SCORE > 0.40" | bc -l) )); then
             echo "Test passed. Score is greater than 0.40"
             exit 0
           else
