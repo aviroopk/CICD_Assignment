@@ -13,25 +13,22 @@ env:
   VERSION: 1.1
 
 jobs:
-  call-child-workflows:
+  call-train-workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Call Train workflow
-        uses: actions/workflow-dispatch@v2
+        uses: ./.github/workflows/Train.yaml
         with:
-          workflow: Train
-          ref: main
-          env:
-            IMAGE_NAME: ci-cd-assignment
-            REGISTRY: docker.io
-            VERSION: 1.1
+          IMAGE_NAME: ci-cd-assignment
+          REGISTRY: docker.io
+          VERSION: 1.1
+  call-test-workflow:
+    runs-on: ubuntu-latest
+    steps:
       - name: Call Test workflow
-        if: success()
-        uses: actions/workflow-dispatch@v2
+        uses: ./.github/workflows/Test.yaml
         with:
-          workflow: Test
-          ref: main
-          env:
-            IMAGE_NAME: ci-cd-assignment
-            REGISTRY: docker.io
-            VERSION: 1.1
+          IMAGE_NAME: ci-cd-assignment
+          REGISTRY: docker.io
+          VERSION: 1.1
+
