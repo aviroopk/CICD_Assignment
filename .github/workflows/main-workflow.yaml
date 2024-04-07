@@ -12,7 +12,6 @@ env:
   PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   VERSION: 1.1
 
-
 jobs:
   call-child-workflows:
     runs-on: ubuntu-latest
@@ -22,7 +21,7 @@ jobs:
         with:
           workflow: Train
           ref: main
-          env:
+          inputs:
             IMAGE_NAME: ${{ env.IMAGE_NAME }}
             REGISTRY: ${{ env.REGISTRY }}
             VERSION: ${{ env.VERSION }}
@@ -32,9 +31,7 @@ jobs:
         with:
           workflow: Test
           ref: main
-          env:
+          inputs:
             IMAGE_NAME: ${{ env.IMAGE_NAME }}
             REGISTRY: ${{ env.REGISTRY }}
             VERSION: ${{ env.VERSION }}
-
-
