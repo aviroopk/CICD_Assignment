@@ -1,9 +1,9 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Train"]
+    types: [completed]
 
 env:
   IMAGE_NAME: ci-cd-assignment
@@ -16,7 +16,7 @@ env:
 jobs:
   pull-run-and-test:
     runs-on: ubuntu-latest
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
