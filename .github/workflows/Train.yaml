@@ -1,15 +1,14 @@
 name: Train
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types: [opened, synchronize, reopened]
 
 env:
   IMAGE_NAME: ci-cd-assignment
   REGISTRY: docker.io
-  USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   VERSION: 1.1
 
 jobs:

@@ -8,8 +8,6 @@ on:
 env:
   IMAGE_NAME: ci-cd-assignment
   REGISTRY: docker.io
-  USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   VERSION: 1.1
 
 
