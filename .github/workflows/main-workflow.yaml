@@ -20,7 +20,7 @@ jobs:
       - name: Call Workflow 1
         uses: ./.github/workflows/Train.yaml
         with:
-          IMAGE_NAME: ${{ env.MAIN_ENV_VAR }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
           REGISTRY: ${{ env.REGISTRY }}
           VERSION: ${{ env.VERSION }}
 
@@ -33,6 +33,6 @@ jobs:
       - name: Call Workflow 2
         uses: ./.github/workflows/Test.yaml
         with:
-          IMAGE_NAME: ${{ env.MAIN_ENV_VAR }}
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
           REGISTRY: ${{ env.REGISTRY }}
           VERSION: ${{ env.VERSION }}
