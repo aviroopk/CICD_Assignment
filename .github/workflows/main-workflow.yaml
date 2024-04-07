@@ -22,9 +22,9 @@ jobs:
           workflow: Train
           ref: main
           env:
-            IMAGE_NAME: ${IMAGE_NAME}
-            REGISTRY: ${REGISTRY}
-            VERSION: ${VERSION}
+            IMAGE_NAME: ci-cd-assignment
+            REGISTRY: docker.io
+            VERSION: 1.1
       - name: Call Test workflow
         if: success()
         uses: actions/workflow-dispatch@v2
@@ -32,6 +32,6 @@ jobs:
           workflow: Test
           ref: main
           env:
-            IMAGE_NAME: ${IMAGE_NAME}
-            REGISTRY: ${env.REGISTRY}
-            VERSION: ${env.VERSION}
+            IMAGE_NAME: ci-cd-assignment
+            REGISTRY: docker.io
+            VERSION: 1.1
