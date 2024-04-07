@@ -21,17 +21,17 @@ jobs:
         with:
           workflow: Train
           ref: main
-        inputs:
-          IMAGE_NAME: ${IMAGE_NAME}
-          REGISTRY: ${REGISTRY}
-          VERSION: ${VERSION}
+          env:
+            IMAGE_NAME: ${IMAGE_NAME}
+            REGISTRY: ${REGISTRY}
+            VERSION: ${VERSION}
       - name: Call Test workflow
         if: success()
         uses: actions/workflow-dispatch@v2
         with:
           workflow: Test
           ref: main
-        inputs:
-          IMAGE_NAME: ${IMAGE_NAME}
-          REGISTRY: ${env.REGISTRY}
-          VERSION: ${env.VERSION}
+          env:
+            IMAGE_NAME: ${IMAGE_NAME}
+            REGISTRY: ${env.REGISTRY}
+            VERSION: ${env.VERSION}
