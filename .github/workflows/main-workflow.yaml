@@ -5,12 +5,26 @@ on:
     branches:
       - main
 
+env:
+  IMAGE_NAME: ci-cd-assignment
+  REGISTRY: docker.io
+  USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  VERSION: 1.1
+
+
 jobs:
   call-workflow1:
     runs-on: ubuntu-latest
     steps:
       - name: Call Workflow 1
         uses: ./.github/workflows/Train.yaml
+        with:
+          IMAGE_NAME: ${{ env.MAIN_ENV_VAR }}
+          REGISTRY: ${{ env.REGISTRY }}
+          VERSION: ${{ env.VERSION }}
+
+
 
   call-workflow2:
     needs: call-workflow1
@@ -18,3 +32,7 @@ jobs:
     steps:
       - name: Call Workflow 2
         uses: ./.github/workflows/Test.yaml
+        with:
+          IMAGE_NAME: ${{ env.MAIN_ENV_VAR }}
+          REGISTRY: ${{ env.REGISTRY }}
+          VERSION: ${{ env.VERSION }}
