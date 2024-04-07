@@ -1,7 +1,7 @@
 name: Train
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       IMAGE_NAME:
         description: 'Docker container/image name'
